@@ -11,6 +11,10 @@ const HomePage = ({navigation}) =>{
                 title="Props Test"
                 onPress={()=>{navigation.navigate("PropsTest1")}}
             />
+            <Button
+                title="Register Test"
+                onPress={()=>{navigation.navigate("RegisterPage")}}
+            />
         </View>
     );
 
