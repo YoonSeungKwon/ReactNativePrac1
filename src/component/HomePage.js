@@ -19,6 +19,10 @@ const HomePage = ({navigation}) =>{
                 title="Login Test"
                 onPress={()=>{navigation.navigate("LoginPage")}}
             />
+            <Button
+                title="My Page"
+                onPress={()=>{navigation.navigate("MyPage")}}
+            />
         </View>
     );
 
