@@ -9,10 +9,7 @@ const MyPage = ({navigation}) =>{
     const [regdate, setRegdate] = React.useState("")
 
 
-    const fetchInfo = async() =>{
-
-        
-
+    const fetchAccess = async() =>{
         fetch('http://10.0.2.2:8080/api/v1/users/info', {
             method:'GET',
             headers:{
@@ -28,23 +25,36 @@ const MyPage = ({navigation}) =>{
                 setName(data.name)
                 setRegdate(data.regdate)
             }
-            // if(response.status === 401){
-            //     fetch('http://10.0.2.2:8080/api/v1/users/info', {
-            //         method:'GET',
-            //         headers:ref_header
-            //     }).then(response => response.json()
-            //         .then(data =>{
-            //             console.log(data)
-            //             if(response.status === 401){
-            //             Alert.alert(data.message +"    " + data.code)
-            //         }})
-            //     )
-            // }
+            if(response.status === 401){
+                console.log("Issued new AccessToken")
+                fetchRef()   
+            }
         })).catch(error=>console.log(error))
     }
 
+    const fetchRef = async() =>{
+        fetch('http://10.0.2.2:8080/api/v1/users/info', {
+                    method:'GET',
+                    headers:{
+                        "Access":"application/json",
+                        "Content-Type":"application/json",
+                        "Authorization":"Bearer " + await AsyncStorage.getItem("@accToken"),
+                        "RefreshToken":"Bearer " + await AsyncStorage.getItem("@refToken"),
+                    }
+            }).then(response => response.json()
+                    .then(data =>{
+                        console.log(data)
+                        if(response.status === 200){
+                            AsyncStorage.setItem("@accToken", response.headers.get("Authorization"))
+                        }
+                        if(response.status === 401){
+                        Alert.alert(data.message +"    " + data.code)
+                        }})
+            ).catch(error=>console.log(error))   
+    }
+
     React.useEffect(()=>{
-        fetchInfo()
+        fetchAccess()
     },[]);
 
 

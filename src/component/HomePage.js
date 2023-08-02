@@ -23,6 +23,14 @@ const HomePage = ({navigation}) =>{
                 title="My Page"
                 onPress={()=>{navigation.navigate("MyPage")}}
             />
+            <Button
+                title="네트워크 확인"
+                onPress={()=>{navigation.navigate("NetWorkPage")}}
+            />
+            <Button
+                title="게시판"
+                onPress={()=>{navigation.navigate("BoardPage")}}
+            />
         </View>
     );
 
